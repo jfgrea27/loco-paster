@@ -21,6 +21,9 @@
                 p.go-tools
                 p.errcheck
                 p.gofumpt
+                # react specific
+                p.nodejs_21
+                p.nodePackages.prettier
               ];
               shellHook=''
                 export GOROOT=${p.go.outPath}/share/go
