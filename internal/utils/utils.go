@@ -21,5 +21,4 @@ func BuildEndpoint() string {
 		}
 	}
 	return fmt.Sprintf("0.0.0.0:%v", port)
-
 }

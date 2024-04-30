@@ -3,16 +3,19 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/contrib/static"
+
 	"github.com/gin-gonic/gin"
+
 	"github.com/jfgrea27/loco-paster/internal/models"
 	"github.com/rs/zerolog/log"
 )
 
-var pasteObjs = []models.PasteObj{
-	{Id: 1, Blob: "foo"},
-}
+var pasteObjs = []models.PasteObj{}
 
 func getPaste(c *gin.Context) {
 	log.Info().Msg("Handling GET /pastes")
@@ -28,7 +31,6 @@ func getPasteById(c *gin.Context) {
 	log.Info().Msg(fmt.Sprintf("Handling GET /pastes/%v", id_str))
 
 	id, err := strconv.Atoi(id_str)
-
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("Invalid id %v", id_str)})
 	}
@@ -48,7 +50,6 @@ func deletePasteById(c *gin.Context) {
 	log.Info().Msg(fmt.Sprintf("Handling DELETE /pastes/%v", id_str))
 
 	id, err := strconv.Atoi(id_str)
-
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("Invalid id %v", id_str)})
 	}
@@ -71,7 +72,6 @@ func deletePasteById(c *gin.Context) {
 }
 
 func postPaste(c *gin.Context) {
-
 	log.Info().Msg("Handling POST /pastes/")
 
 	var p models.PasteObj
@@ -91,13 +91,47 @@ func postPaste(c *gin.Context) {
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
-	router.GET("/api/v1/pastes/:id", getPasteById)
-	router.GET("/api/v1/pastes/", getPaste)
-	router.POST("/api/v1/pastes/", postPaste)
-	router.DELETE("/api/v1/pastes/:id", deletePasteById)
+
+	router = setupCors(router)
+
+	if os.Getenv("API_ONLY") != "true" {
+		router = setupStaticRouter(router)
+	}
+	router = setupApiRouter(router)
+
 	return router
 }
-func Run(endpoint string) {
+
+func setupStaticRouter(router *gin.Engine) *gin.Engine {
+	router.Use(static.Serve("/", static.LocalFile("./dist", true)))
+
+	return router
+}
+
+func setupCors(router *gin.Engine) *gin.Engine {
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	config.AllowMethods = []string{"*"}
+	config.AllowHeaders = []string{"*"}
+
+	router.Use(cors.New(config))
+	return router
+}
+
+func setupApiRouter(router *gin.Engine) *gin.Engine {
+	api := router.Group("/api/v1")
+
+	api.GET("/pastes/:id", getPasteById)
+	api.GET("/pastes/", getPaste)
+	api.POST("/pastes/", postPaste)
+	api.DELETE("/pastes/:id", deletePasteById)
+
+	return router
+}
+
+func RunServer(endpoint string) {
 	router := setupRouter()
+	log.Info().Msg(fmt.Sprintf("Running with %v", endpoint))
+
 	router.Run(endpoint)
 }

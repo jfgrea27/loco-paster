@@ -6,11 +6,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPastes(t *testing.T) {
-	router := setupRouter()
+	router := setupApiRouter(gin.Default())
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/api/v1/pastes/", nil)
@@ -20,17 +21,17 @@ func TestGetPastes(t *testing.T) {
 }
 
 func TestGetPastesById(t *testing.T) {
-	router := setupRouter()
+	router := setupApiRouter(gin.Default())
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/api/v1/pastes/1", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)
+	assert.Equal(t, 404, w.Code)
 }
 
 func TestPostPastes(t *testing.T) {
-	router := setupRouter()
+	router := setupApiRouter(gin.Default())
 
 	w := httptest.NewRecorder()
 	blob := []byte(`{"blob": "bar"}`)
@@ -43,7 +44,7 @@ func TestPostPastes(t *testing.T) {
 }
 
 func TestDeletePastes(t *testing.T) {
-	router := setupRouter()
+	router := setupApiRouter(gin.Default())
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("DELETE", "/api/v1/pastes/123", nil)

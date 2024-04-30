@@ -6,6 +6,5 @@ import (
 )
 
 func main() {
-	api.Run(utils.BuildEndpoint())
-
+	api.RunServer(utils.BuildEndpoint())
 }
