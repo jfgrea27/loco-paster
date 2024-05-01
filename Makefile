@@ -32,4 +32,4 @@ docker: test lint build_ui
 deploy: docker
 	docker tag loco-paster:latest ${AWS_ECR_REPO}/loco-paster:latest
 	aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_REPO}
-	#docker push ${AWS_ECR_REPO}/loco-paster:latest
+	docker push ${AWS_ECR_REPO}/loco-paster:latest
