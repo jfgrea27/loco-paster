@@ -21,6 +21,9 @@ function App() {
         <p className="nes-text is-success">Delete it when you're done!</p>
       </div>
       <PasteItemList />
+      <p className="warning-message blink_me">
+        Note: Don't paste anything Bowser could use against you!!
+      </p>
     </div>
   );
 }

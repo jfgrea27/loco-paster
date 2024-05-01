@@ -119,6 +119,16 @@ body {
 }
 
 
+.warning-message {
+    background-color: white;
+    text-align: center;
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+
 .blink_me {
   animation: blinker 1s linear infinite;
 }
