@@ -1,8 +1,11 @@
 import { PasteItemModel, CreatePasteItemModel } from "../models/models";
 
 const buildBaseEndpoint = (): string => {
-  const port = process.env.LOCO_PASTER_API_PORT || 8000;
-  return `http://0.0.0.0:${port}`;
+  if (process.env.NODE_ENV === "development") {
+    const port = process.env.LOCO_PASTER_API_PORT || 8000;
+    return `http://0.0.0.0:${port}`;
+  }
+  return "";
 };
 const commonHeaders = {
   "Access-Control-Allow-Origin": "*",
