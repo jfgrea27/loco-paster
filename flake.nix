@@ -24,6 +24,9 @@
                 # react specific
                 p.nodejs_21
                 p.nodePackages.prettier
+                # deploy
+                p.jq
+                p.awscli2
               ];
               shellHook=''
                 export GOROOT=${p.go.outPath}/share/go

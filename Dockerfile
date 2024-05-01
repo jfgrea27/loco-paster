@@ -1,6 +1,6 @@
-FROM busybox:1.35.0-uclibc as busybox
+FROM --platform=linux/amd64 busybox:1.35.0-uclibc as busybox
 
-FROM gcr.io/distroless/base-debian11
+FROM --platform=linux/amd64 gcr.io/distroless/base-debian11
 
 COPY --from=busybox /bin/sh /bin/sh
 COPY --from=busybox /bin/ls /bin/ls
@@ -13,4 +13,4 @@ COPY loco-paster /
 COPY dist/ /dist/
 
 
-ENTRYPOINT ["/bin/sh", "/loco-paster"]
+ENTRYPOINT ["/loco-paster"]
