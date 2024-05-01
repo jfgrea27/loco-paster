@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ClipboardEvent } from "react";
 import PasteItem from "./PasteItem";
+import "../styles/PasteItemList.css";
 
 import { PasteItemModel } from "../models/models";
 import { apiCreatePaste, apiGetPastes, apiDeletePaste } from "../api/PasteObj";
@@ -32,25 +33,60 @@ function PasteItemList() {
     setPasteItems(fetchedPasteItems);
   };
 
-  return (
-    <div className="paste-item-list">
-      {pasteItems.map((pasteItem, idx) => (
-        <PasteItem
-          key={idx}
-          id={pasteItem.id}
-          blob={pasteItem.blob}
-          deletePaste={deletePasteItem}
-        />
-      ))}
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => setText("")}
-        placeholder="Paste something here"
-        onPaste={(e) => addPasteItem(e)}
-      />
-    </div>
-  );
+  if (pasteItems.length === 0) {
+    return (
+      <div className="content-area">
+        <div className="paste-list-box nes-textarea">
+          <div className="grid-container">
+            Your pastes will be here..
+            <img
+              src={require("../media/mario.gif")}
+              alt="Computer man"
+              className="waiting-image"
+            />
+          </div>
+        </div>
+
+        <div className="paste-area">
+          <input
+            className="paste-box blink_me nes-textarea"
+            type="text"
+            value={text}
+            onChange={(e) => setText("")}
+            placeholder="Paste here"
+            onPaste={(e) => addPasteItem(e)}
+          />
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="content-area">
+        <div className="paste-list-box nes-textarea">
+          <div className="grid-container">
+            {pasteItems.map((pasteItem, idx) => (
+              <PasteItem
+                key={idx}
+                id={pasteItem.id}
+                blob={pasteItem.blob}
+                deletePaste={deletePasteItem}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="paste-area">
+          <input
+            className="paste-box blink_me nes-textarea"
+            type="text"
+            value={text}
+            onChange={(e) => setText("")}
+            placeholder="Paste here"
+            onPaste={(e) => addPasteItem(e)}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default PasteItemList;

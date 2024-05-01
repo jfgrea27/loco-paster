@@ -1,0 +1,130 @@
+@import url("./index.css");
+
+
+@font-face {
+  font-family: 'pressstart';
+  src:url('../../public/fonts/PressStart2P-Regular.ttf') format('tff');
+}
+
+.font
+{
+    font-family: 'pressstart';
+}
+
+
+#root {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    background-image:url('../media/Ground.png');
+
+}
+
+.title-area {
+    width: 100%;
+    height: 15%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    background: white;
+}
+
+
+
+
+
+.content-area {
+    width: 100%;
+    height: 85%;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paste-list-box {
+    background-color: lightgray;
+    height: 100%;
+    width: 70%;
+    overflow: scroll;
+    justify-content: center;
+}
+
+.grid-container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 5%;
+    text-align: center;
+    width: 100%;
+    padding: 5%;
+    margin: 10%p;;
+}
+
+.grid-item {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    margin: 5%;
+    align-self: center;
+}
+.copy-item {
+    align-self: left;
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
+
+}
+
+.cancel-item {
+    display: grid;
+    align-self: right;
+}
+
+
+.overflow-ellipsis {
+    text-overflow: ellipsis;
+}
+
+
+.top-image {
+    width: 20%;
+    border-radius: 5%;
+    justify-self: center;
+}
+
+
+.waiting-image {
+    width: 50%;
+    width: 30%;
+    border-radius: 5%;
+    justify-self: center;
+    display: flex;
+}
+
+
+.paste-area {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.paste-box {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

@@ -1,15 +1,27 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import "./styles/App.css";
 import PasteItemList from "./components/PasteItemList";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <PasteItemList />
-      </header>
+    <div id="root">
+      <div className="title-area nes-input">
+        <p className="nes-text is-primary">
+          LocoPaster
+          <img
+            src={require("./media/1up.gif")}
+            alt="Computer man"
+            className="top-image"
+          />
+        </p>
+        <p className="nes-text is-warning">Paste anything you would like.</p>
+        <p className="nes-text is-error">
+          Copy it later by clicking on its button.
+        </p>
+        <p className="nes-text is-success">Delete it when you're done!</p>
+      </div>
+      <PasteItemList />
     </div>
   );
 }
