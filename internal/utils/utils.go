@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/jfgrea27/loco-paster/internal/models"
 )
 
 func BuildEndpoint() string {
@@ -21,4 +23,13 @@ func BuildEndpoint() string {
 		}
 	}
 	return fmt.Sprintf("0.0.0.0:%v", port)
+}
+
+func FindPasteObjIndex(id int, pobjs []models.PasteObj) int {
+	for i, o := range pobjs {
+		if o.Id == id {
+			return i
+		}
+	}
+	return -1
 }

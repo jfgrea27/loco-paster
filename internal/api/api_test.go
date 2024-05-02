@@ -50,5 +50,5 @@ func TestDeletePastes(t *testing.T) {
 	req, _ := http.NewRequest("DELETE", "/api/v1/pastes/123", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)
+	assert.Equal(t, 404, w.Code)
 }

@@ -18,8 +18,10 @@ function PasteItemList() {
   };
 
   const deletePasteItem = async (id: number) => {
-    const fetchedPasteItems = await apiDeletePaste(id);
-    setPasteItems(fetchedPasteItems);
+    const deletedItem = await apiDeletePaste(id);
+    console.log(deletedItem);
+    const remainingItems = pasteItems.filter((e) => e.id != deletedItem.id);
+    setPasteItems(remainingItems);
   };
 
   const addPasteItem = async (event: ClipboardEvent<HTMLInputElement>) => {
@@ -29,8 +31,9 @@ function PasteItemList() {
     const pasteItemModel = {
       blob: text,
     };
-    const fetchedPasteItems = await apiCreatePaste(pasteItemModel);
-    setPasteItems(fetchedPasteItems);
+    const createdPasteItem = await apiCreatePaste(pasteItemModel);
+    const newPasteItems = pasteItems.concat(createdPasteItem);
+    setPasteItems(newPasteItems);
   };
 
   if (pasteItems.length === 0) {

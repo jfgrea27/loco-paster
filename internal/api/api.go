@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/jfgrea27/loco-paster/internal/models"
+	"github.com/jfgrea27/loco-paster/internal/utils"
 	"github.com/rs/zerolog/log"
 )
 
@@ -53,22 +54,22 @@ func deletePasteById(c *gin.Context) {
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("Invalid id %v", id_str)})
 	}
+	idx := utils.FindPasteObjIndex(id, pasteObjs)
 
-	idx := -1
-	for i, o := range pasteObjs {
-		if o.Id == id {
-			idx = i
-		}
-	}
 	// found -> delete
-	if idx > -1 {
-		log.Debug().Msg(fmt.Sprintf("PasteObj %v found, deleting.", id_str))
-		pasteObjs = append(pasteObjs[:idx], pasteObjs[idx+1:]...)
-	} else {
+	if idx == -1 {
 		log.Warn().Msg(fmt.Sprintf("PasteObj %v not found.", id_str))
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": fmt.Sprintf("Id %v not found", id)})
+		return
 	}
+
+	deletePaste := pasteObjs[idx]
+
+	log.Debug().Msg(fmt.Sprintf("PasteObj %v found, deleting.", id_str))
+	pasteObjs = append(pasteObjs[idx:], pasteObjs[idx+1:]...)
 	log.Debug().Msg(fmt.Sprintf("Current paste count: %v", len(pasteObjs)))
-	c.IndentedJSON(http.StatusOK, pasteObjs)
+
+	c.IndentedJSON(http.StatusOK, deletePaste)
 }
 
 func postPaste(c *gin.Context) {

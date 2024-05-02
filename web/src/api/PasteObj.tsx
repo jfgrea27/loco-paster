@@ -26,7 +26,7 @@ const apiGetPastes = async (): Promise<PasteItemModel[]> => {
 
 const apiCreatePaste = async (
   paste: CreatePasteItemModel,
-): Promise<PasteItemModel[]> => {
+): Promise<PasteItemModel> => {
   const endpoint = `${buildBaseEndpoint()}/api/v1/pastes/`;
   const request = new Request(endpoint, {
     method: "POST",
@@ -34,21 +34,19 @@ const apiCreatePaste = async (
     body: JSON.stringify(paste),
   });
 
-  await fetch(request);
-
-  return await apiGetPastes();
+  const response = await fetch(request);
+  return await response.json();
 };
 
-const apiDeletePaste = async (id: number): Promise<PasteItemModel[]> => {
+const apiDeletePaste = async (id: number): Promise<PasteItemModel> => {
   const endpoint = `${buildBaseEndpoint()}/api/v1/pastes/${id}`;
   const request = new Request(endpoint, {
     method: "DELETE",
     headers: commonHeaders,
   });
 
-  await fetch(request);
-
-  return await apiGetPastes();
+  const response = await fetch(request);
+  return await response.json();
 };
 
 export { apiCreatePaste, apiGetPastes, apiDeletePaste };

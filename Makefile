@@ -5,7 +5,7 @@ staticcheck:
 
 fumpt:
 	gofumpt -w .
-
+	(prettier ./web --write)
 vet:
 	go vet ./...
 
